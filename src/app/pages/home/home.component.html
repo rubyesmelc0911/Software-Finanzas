@@ -1,21 +1,18 @@
-
-  <!--Robot Ban a la izquierda-->
-  <div class="home-container">
-  <div>
-    <img src="robot.png" alt="">
-
+<div class="home-container">
+  <div class="robot-container">
+    <img src="robot.png" alt="Robot">
+    <!--Appears only when showJoke is true-->
+    <div class="joke-bubble" *ngIf="showJoke">{{joke}}</div>
   </div>
-  <!--Texto y botones a la derecha-->
-  <div>
+
+  <div class="text-container">
     <div>
-      <h1>¡Hola! Soy BAN<br> Tu ayudante de contabilidad. <br> </h1>
+      <h1>¡Hola! Soy BAN<br> Tu ayudante de contabilidad. <br></h1>
       <h1>¿Estas listo para crear una cuenta de tu empresa?</h1>
     </div>
     <div>
       <button routerLink="question" class="btn">Crear cuenta</button>
-      <button class="btn">Mejor un chiste!</button>
+      <button class="btn" (click)="fetchJoke()">Mejor un chiste!</button>
     </div>
   </div>
-  </div>
-
-
+</div>
