@@ -1,4 +1,75 @@
 
-<nav>PARTE DE ARRIBA DE LA PAGINA </nav>
+<nav class="navbar">
+  <div class="navbar-logo">
+    <img src="assets/robot-icon.png" alt="Logo" />
+  </div>
+
+  <div class="navbar-logo">
+  <i class="fa-solid fa-robot fa-3x" aria-hidden="true"></i>
+  </div>
+
+  <div class="navbar-item">
+    <i class="fa-solid fa-house"></i>
+    <span>INICIO</span>
+  </div>
+
+  <div class="navbar-item">
+    <i class="fa-solid fa-file-lines"></i>
+    <span>CUENTA</span>
+  </div>
+
+  <div class="navbar-item">
+    <i class="fa-solid fa-user"></i>
+    <span>CONTACTO</span>
+  </div>
+</nav>
+
 <router-outlet /> <!--donde se cargaran las diferentes paginas segun la ruta-->
-<footer> PARTE DEL PIE DE LA PAGINA</footer>
+
+<footer class="footer-container">
+  <div class="footer-content">
+    <!-- Sección Proyecto BAN -->
+    <div class="footer-section">
+      <div class="footer-icon">
+        <!-- Aquí un icono de discord -->
+      </div>
+      <h3>PROYECTO BAN</h3>
+      <p>
+        Business Account Nexus es un software creado para la automatización de cuentas
+        de Balance General y Estado de Resultados.
+      </p>
+    </div>
+
+    <!-- Línea divisoria -->
+    <div class="divider"></div>
+
+    <!-- Sección Desarrolladoras -->
+    <div class="footer-section">
+      <div class="footer-icon">
+        <!-- Aquí va el icono de GitHub -->
+      </div>
+      <h3>DESARROLLADORAS</h3>
+      <div class="developers">
+        <div class="developer">
+          <div class="photo-placeholder"></div>
+          <p>Ruby Esmeralda López Correa</p>
+        </div>
+        <div class="developer">
+          <div class="photo-placeholder"></div>
+          <p>María Guadalupe Alvarado Castillo</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Línea divisoria -->
+    <div class="divider"></div>
+
+    <!-- Sección Agradecimiento -->
+    <div class="footer-section">
+      <h2>GRACIAS POR USAR<br>LA AYUDA DE BAN</h2>
+      <div class="footer-icon robot-right">
+        <!-- Aquí agregas tu imagen del robot -->
+      </div>
+    </div>
+  </div>
+</footer>
