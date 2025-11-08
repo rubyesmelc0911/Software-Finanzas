@@ -1,8 +1,20 @@
-.home-container{
-  display:flex;
-  justify-content:center;
+.home-container {
+  display: flex;
   align-items: center;
+  gap: 20px;
 }
+
+.robot-container {
+  position: relative;
+  width: 40em; /* ajusta según tu imagen */
+}
+
+.robot-container img {
+  width: 100%;
+}
+
+
+
 /* From Uiverse.io by kleenpulse */
 .btn {
   --border-color: linear-gradient(-45deg, #ffae00, #7e03aa, #00fffb);
