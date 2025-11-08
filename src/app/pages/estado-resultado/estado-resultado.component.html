@@ -1,1 +1,39 @@
-<p>estado-resultado works!</p>
+<div class="contenedor-er">
+  <!--Contenedor de seleccion de cuentas-->
+  <div class="cuentas-er">
+    <h3>CUENTAS</h3>
+    <div style="background-color: #3F0071;"> <!--Parte morada del diseño-->
+      <div class="buscador"><form method="get" id="buscarform">
+    <fieldset>
+        <input type="text" id="s" value="" placeholder="Buscar"  />
+        <input class="button" type="submit" value="" />
+        <i class="bi bi-search"></i>
+    </fieldset>
+    </form></div>
+    </div>
+    <!--Lista de cuentas-->
+
+
+  </div>
+  <!--Contenedor a la derecha con input de informacion de empresa y la actualizacion en tiempo real-->
+  <div class="right-container">
+    <div class="empresa-info">
+      <h3>INFORMACION DE EMPRESA</h3>
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon3">Nombre  :</span>
+        <input type="text" class="form-control-in" aria-describedby="basic-addon3">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon3">Fecha  :</span>
+        <input type="text" class="form-control-in" aria-describedby="basic-addon3">
+      </div>
+      <div class="input-group">
+        <span class="input-group-addon" id="basic-addon3">Direccion:</span>
+        <input type="text" class="form-control-in" aria-describedby="basic-addon3">
+      </div>
+    </div>
+    <div class="real-time">
+      Actualizacion en tiempo real de la actividad
+    </div>
+  </div>
+</div>
