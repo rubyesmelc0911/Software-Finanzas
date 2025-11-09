@@ -12,8 +12,15 @@
     </form></div>
     </div>
     <!--Lista de cuentas-->
-
-
+    <div class="lista-cuentas">
+      <div
+      *ngFor="let cuenta of accounts"
+      class="cuenta-item"
+      [class.selected]="selectedAccounts.includes(cuenta)"
+      >
+        {{ cuenta.nombre }}
+      </div>
+    </div>
   </div>
   <!--Contenedor a la derecha con input de informacion de empresa y la actualizacion en tiempo real-->
   <div class="right-container">
@@ -34,6 +41,19 @@
     </div>
     <div class="real-time">
       Actualizacion en tiempo real de la actividad
+      <div *ngIf="selectedAccounts.length === 0">
+    No hay cuentas seleccionadas aún.
+  </div>
+
+  <div *ngFor="let acc of selectedAccounts" class="account-row">
+    <span>{{ acc.nombre }}</span>
+    <span *ngIf="acc.requiereInput">
+      <input type="number" [(ngModel)]="acc.valor" placeholder="Monto" />
+    </span>
+    <span *ngIf="acc.calculada">
+      <strong> = calculada</strong>
+    </span>
+  </div>
     </div>
   </div>
 </div>

@@ -18,7 +18,7 @@ app-root {
 }
 
 main {
-  padding-top: 120px;
+  padding-top: 1em;
   flex: 1; /* pushes footer down */
 }
 
