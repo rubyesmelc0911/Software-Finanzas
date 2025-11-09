@@ -9,8 +9,8 @@
 
 .cuentas-bg {
   background-color: #D9D9D9;
-  height: 25em;
-  width: 20em;
+  height: auto;
+  width: auto;
   padding: 1em;
   text-align: center;
   border-radius: 10px;
@@ -93,18 +93,37 @@
 }
 
 
-@media (max-width: 768px) {
-  .right-container {
-    width: 100%;
-    grid-template-columns: 1fr;
-  }
+/*ESTILOS PARA CUENTAS*/
+.cuenta-item {
+  background: #2e005c;
+  color: white;
+  padding: 10px;
+  margin: 8px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
 
-  .form-control-in {
-    width: 100%;
-  }
+.cuenta-item:hover {
+  background: #4a00a0;
+}
 
-  .input-group-addon {
-    width: 8em;
-    text-align: left;
-  }
+.cuenta-item.selected {
+  background: #00b4ff;
+  color: #fff;
+}
+
+.real-time {
+  background-color: #1a083b;
+  color: white;
+  padding: 1rem;
+  border-radius: 10px;
+  font-family: 'Jockey One', sans-serif;
+}
+
+.account-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
 }
