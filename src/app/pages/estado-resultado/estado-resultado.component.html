@@ -12,15 +12,17 @@
     </form></div>
     </div>
     <!--Lista de cuentas-->
-    <div class="lista-cuentas">
-      <div
-      *ngFor="let cuenta of accounts"
-      class="cuenta-item"
-      [class.selected]="selectedAccounts.includes(cuenta)"
-      >
-        {{ cuenta.nombre }}
-      </div>
-    </div>
+    <div *ngFor="let acc of accounts" class="lista-cuentas">
+  <div class="cuenta-item" *ngIf="acc.requiereInput">
+    <span>{{ acc.nombre }}</span>
+    <input
+      type="number"
+      [(ngModel)]="acc.valor"
+      placeholder="Monto"
+    />
+  </div>
+</div>
+<button class="glow-on-hover" (click)="updateCalculatedAccounts()">Calcular</button>
   </div>
 
   <!-- Contenedor a la derecha con input de información de empresa y la actualización en tiempo real -->
@@ -30,32 +32,31 @@
 
     <div class="input-group">
       <span class="input-group-addon" id="basic-addon1">Nombre de la Empresa:</span>
-      <input type="text" class="form-control-in" aria-describedby="basic-addon1" placeholder="Ej. Comercial XYZ S.A. de C.V.">
+      <input type="text" class="form-control-in" aria-describedby="basic-addon1" [(ngModel)]="nombre" placeholder="Ej. Comercial XYZ S.A. de C.V.">
     </div>
-    <div class="real-time">
-      Actualizacion en tiempo real de la actividad
-      <div *ngIf="selectedAccounts.length === 0">
-    No hay cuentas seleccionadas aún.
-  </div>
-
-  <div *ngFor="let acc of selectedAccounts" class="account-row">
-    <span>{{ acc.nombre }}</span>
-    <span *ngIf="acc.requiereInput">
-      <input type="number" [(ngModel)]="acc.valor" placeholder="Monto" />
-    </span>
-    <span *ngIf="acc.calculada">
-      <strong> = calculada</strong>
-    </span>
-  </div>
-    </div>
-
     <div class="input-group">
       <span class="input-group-addon" id="basic-addon7">Título del Documento:</span>
-      <input type="text" class="form-control-in" aria-describedby="basic-addon7" value="Estado de Resultados">
+      <input type="text" class="form-control-in" aria-describedby="basic-addon7" placeholder="Estado de Resultado" [(ngModel)]="titulo">
     </div>
-  </div>
+    <div class="input-group">
+      <span class="input-group-addon" id="basic-addon7">Periodo Contable:</span>
+      <input type="text" class="form-control-in" aria-describedby="basic-addon7" [(ngModel)]="periodo" placeholder="Ej. del 1 de enero al 31 de 20XX">
+    </div>
+    <div class="real-time">
+      <div style="font-family: Jockey One; font-size:smaller;">
+        <h2>{{titulo}}</h2>
+        <h2>{{nombre}}, {{periodo}}</h2>
 
-  <div class="real-time">
-    Actualización en tiempo real de la actividad
+      </div>
+  <div class="accounts-list">
+  <div *ngFor="let acc of accounts" class="account-row">
+    <div class="account-name">{{ acc.nombre }}</div>
+    <div class="account-value">{{ acc.valor }}</div>
   </div>
+</div>
+
+    </div>
+
+  </div>
+  <button class="glow-on-hover"> Crear Estado de Resultado </button>
 </div>
