@@ -41,7 +41,7 @@ export class EstadoResultadoComponent {
 
   // 5️⃣ IMPUESTOS
   { nombre: 'Impuesto sobre la Renta', tipo: 'Gasto', requiereInput: true, valor: 0 },
-  { nombre: 'Participación de los Trabajadores en las Utilidades (PTU)', tipo: 'Gasto', requiereInput: true, valor: 0 },
+  { nombre: 'Participación de los Trabajadores (PTU)', tipo: 'Gasto', requiereInput: true, valor: 0 },
   { nombre: 'Impuestos Totales', tipo: 'Resultado', requiereInput: false, calculada: true, valor: 0 },
 
   // 6️⃣ RESULTADO FINAL
@@ -61,6 +61,12 @@ updateCalculatedAccounts() {
   const ventasNetas = this.accounts.find(acc => acc.nombre === 'Ventas Netas')?.valor || 0;
   const devolucionSVentas = this.accounts.find(acc => acc.nombre === 'Devoluciones sobre Ventas')?.valor || 0;
   const descuentoSVentas = this.accounts.find(acc => acc.nombre === 'Descuentos sobre Ventas')?.valor || 0;
+  const otrosIngresos = this.accounts.find(acc=> acc.nombre=='Otros Ingresos')?.valor || 0;
+  const otrosGastos = this.accounts.find(acc=> acc.nombre=='Otros Gastos')?.valor || 0;
+  const impuestoSobreRenta = this.accounts.find(acc=> acc.nombre=='Impuesto sobre la Renta')?.valor || 0;
+  const ptu = this.accounts.find(acc=> acc.nombre=='Participación de los Trabajadores (PTU)')?.valor || 0;
+
+
 
   //Costos
   const costoVentas = this.accounts.find(acc => acc.nombre === 'Costo de Ventas')?.valor || 0;
@@ -69,17 +75,30 @@ updateCalculatedAccounts() {
   const gastosVenta = this.accounts.find(acc => acc.nombre === 'Ventas Netas')?.valor || 0;
   const gastosAdministracion = this.accounts.find(acc => acc.nombre === 'Devoluciones sobre Ventas')?.valor || 0;
 
+  //Utilidad de operacion
+
 
   //agregando los resultados a las propiedades del arreglo
   const ingresosTotales = this.accounts.find(acc=> acc.nombre === 'Ingresos Totales');
   if(ingresosTotales){ ingresosTotales.valor = ventasNetas - devolucionSVentas - descuentoSVentas;}
 
-  //const utilidadBruta = this.accounts.find(acc=> acc.nombre === 'Utilidad Bruta');
-  //if(utilidadBruta && ingresosTotales.valor){ utilidadBruta.valor = ingresosTotales.valor - costoVentas;}
+  const utilidadBruta = this.accounts.find(acc=> acc.nombre === 'Utilidad Bruta');
+  if(utilidadBruta && ingresosTotales){ utilidadBruta.valor = ingresosTotales.valor - costoVentas;}
 
-  const gastosTotales = this.accounts.find(acc=> acc.nombre === 'Ingresos Totales');
-  if(ingresosTotales){ ingresosTotales.valor = ventasNetas - devolucionSVentas - descuentoSVentas;}
+  const gastosOperacion = this.accounts.find(acc=> acc.nombre === 'Gastos de Operación Totales');
+  if(gastosOperacion){ gastosOperacion.valor = gastosVenta + gastosAdministracion;}
 
+  const utilidadOperacion = this.accounts.find(acc=> acc.nombre === 'Utilidad de Operación');
+  if(utilidadOperacion && utilidadBruta && gastosOperacion){ utilidadOperacion.valor = utilidadBruta.valor - gastosOperacion.valor;}
+
+  const utilidadAntesImpuestos = this.accounts.find(acc=> acc.nombre === 'Utilidad antes de Impuestos');
+  if(utilidadAntesImpuestos && utilidadOperacion){ utilidadAntesImpuestos.valor = utilidadOperacion.valor + otrosIngresos - otrosGastos ;}
+
+  const impuestosTotales = this.accounts.find(acc=> acc.nombre === 'Impuestos Totales');
+  if(impuestosTotales){ impuestosTotales.valor = impuestoSobreRenta + ptu;}
+
+  const utilidadNeta = this.accounts.find(acc=> acc.nombre === 'Utilidad Neta');
+  if(utilidadNeta && utilidadAntesImpuestos && impuestosTotales){ utilidadNeta.valor = utilidadAntesImpuestos.valor - impuestosTotales.valor;}
 
 }
 

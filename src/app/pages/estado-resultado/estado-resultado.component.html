@@ -49,7 +49,7 @@
 
       </div>
   <div class="accounts-list">
-  <div *ngFor="let acc of accounts" class="account-row">
+  <div *ngFor="let acc of accounts" class="account-row" [ngStyle]="{'background-color': !acc.requiereInput ? '#D3D3D3' : 'white'}">
     <div class="account-name">{{ acc.nombre }}</div>
     <div class="account-value">{{ acc.valor }}</div>
   </div>
