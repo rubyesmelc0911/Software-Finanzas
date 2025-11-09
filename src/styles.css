@@ -1,11 +1,36 @@
- 
+@import "bootstrap/dist/css/bootstrap.min.css";
 
 /* You can add global styles to this file, and also import other style files */
-body {
-  height: 100vh;
+html, body {
+  height: 100%;
   margin: 0;
+  display: flex;
+  color: white;
+  flex-direction: column;
   background: linear-gradient(to bottom, #150050, #FB2576);
   font-family: Jockey One, sans-serif;
+}
+
+app-root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  padding-top: 120px;
+  flex: 1; /* pushes footer down */
+}
+
+.footer-container {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(to right, #3F0071, #000000);
   color: white;
-  padding: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Jockey One', sans-serif;
+  padding: 1rem;
+  border-top: 2px solid #7A00F2;
 }

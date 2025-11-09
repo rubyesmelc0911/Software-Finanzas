@@ -1,12 +1,16 @@
 .navbar {
-  width: 100%;
-  height: 215px;
+  position: fixed;        /* Stays at the top */
+  top: 0;                 /* Aligns to the top of the viewport */
+  left: 0;                /* Aligns to the left edge */
+  width: 100%;            /* Full width */
+  height: 100px;          /* Reduce height a bit for usability */
   display: flex;
   align-items: center;
   justify-content: space-around;
   background: linear-gradient(90deg, #3F0071, #737373);
-  border: 2px solid #7A00F2;
+  border-bottom: 2px solid #7A00F2;
   box-shadow: 0 0 10px rgba(122, 0, 242, 0.5);
+  z-index: 1000;          /* Makes sure it stays above other content */
 }
 
 .navbar-logo img {
@@ -58,7 +62,10 @@
 
 
 .footer-container {
-  width: 1450px;
+  width: 100%;
+  height: 220px;
+  left: 0;
+  width: 100%;
   height: 220px;
   background: linear-gradient(to right, #3F0071, #000000);
   color: white;
@@ -67,7 +74,8 @@
   align-items: center;
   font-family: 'Jockey One', sans-serif;
   padding: 1rem;
-  margin-top: 2rem;
+  margin-top: 2em;
+  border-top: 2px solid  #7A00F2;
 }
 
 .footer-content {
