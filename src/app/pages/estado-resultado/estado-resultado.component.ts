@@ -69,8 +69,8 @@ updateCalculatedAccounts() {
   //Costos
   const costoVentas = this.accounts.find(acc => acc.nombre === 'Costo de Ventas')?.valor || 0;
   //Gastos
-  const gastosVenta = this.accounts.find(acc => acc.nombre === 'Ventas Netas')?.valor || 0;
-  const gastosAdministracion = this.accounts.find(acc => acc.nombre === 'Devoluciones sobre Ventas')?.valor || 0;
+  const gastosVenta = this.accounts.find(acc => acc.nombre === 'Gastos de Venta')?.valor || 0;
+  const gastosAdministracion = this.accounts.find(acc => acc.nombre === 'Gastos de Administración')?.valor || 0;
 
 
   //agregando los resultados a las propiedades del arreglo, AQUI VAN LOS CALCULADOS POR EL PROGRAMA
