@@ -165,12 +165,14 @@ generatePDF(){
 
   // 💰 Group accounts
   const ingresos = this.accounts.filter(a => a.tipo === "Ingreso");
+  const gastos = this.accounts.filter(a=>a.tipo=="Gasto")
   const costos = this.accounts.filter(a => a.tipo === "Costo");
   const resultados = this.accounts.filter(a => a.tipo === "Resultado");
 
   // ✨ Draw each section
   drawSection("Ingresos", ingresos, "#D63384");
   drawSection("Costos", costos, "#9333EA");
+  drawSection("Gastos", gastos, "#2563EB")
   drawSection("Resultados", resultados, "#2563EB");
 
   //  Footer
