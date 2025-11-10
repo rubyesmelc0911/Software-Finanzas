@@ -1,5 +1,6 @@
 import { CommonModule, NumberSymbol } from '@angular/common';
 import { Component } from '@angular/core';
+ import jsPDF from 'jspdf';
 import {FormsModule} from '@angular/forms';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -94,6 +95,93 @@ updateCalculatedAccounts() {
   const utilidadNeta = this.accounts.find(acc=> acc.nombre === 'Utilidad Neta');
   if(utilidadNeta && utilidadAntesImpuestos && impuestosTotales){ utilidadNeta.valor = utilidadAntesImpuestos.valor - impuestosTotales.valor;}
 
+}
+
+generatePDF(){
+ const doc = new jsPDF();
+
+  // 🎨 Colors and Fonts
+  const pink = "#FB2576";
+  const purple = "#150050";
+  const lightPurple = "#C9A7EB";
+  const lineHeight = 10;
+  let y = 20;
+
+  //  HEADER
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(22);
+  doc.setTextColor(purple);
+  doc.text(this.titulo || "Estado de Resultados", 105, y, { align: "center" });
+
+  y += lineHeight;
+  doc.setFontSize(14);
+  doc.setTextColor(pink);
+  doc.text(this.nombre || "Nombre de la Empresa", 105, y, { align: "center" });
+
+  y += lineHeight;
+  doc.setFontSize(12);
+  doc.setTextColor("#555");
+  doc.text(this.periodo || "Periodo no especificado", 105, y, { align: "center" });
+
+  y += 10;
+
+  //  Decorative line
+  doc.setDrawColor(pink);
+  doc.setLineWidth(1.5);
+  doc.line(20, y, 190, y);
+  y += 10;
+
+  // 🗂️ Helper to draw sections
+  const drawSection = (title: string, items: Cuenta[], color:string) => {
+    if (!items.length) return;
+
+    // Section title
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(14);
+    doc.setTextColor(color);
+    doc.text(title, 20, y);
+    y += 8;
+
+    // Rounded background box (optional, adds cuteness ✨)
+    const startY = y - 3;
+    const boxHeight = items.length * (lineHeight - 2) + 6;
+    doc.setFillColor(255, 245, 255); // light pastel bg
+    doc.roundedRect(18, startY, 175, boxHeight, 3, 3, "F");
+
+    // Items
+    y += 5;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(12);
+    doc.setTextColor("#333");
+
+    items.forEach(item => {
+      doc.text(item.nombre, 25, y);
+      doc.text(item.valor.toLocaleString("es-MX", { style: "currency", currency: "MXN" }), 180, y, { align: "right" });
+      y += lineHeight - 2;
+    });
+
+    y += 6;
+  };
+
+  // 💰 Group accounts
+  const ingresos = this.accounts.filter(a => a.tipo === "Ingreso");
+  const costos = this.accounts.filter(a => a.tipo === "Costo");
+  const resultados = this.accounts.filter(a => a.tipo === "Resultado");
+
+  // ✨ Draw each section
+  drawSection("Ingresos", ingresos, "#D63384");
+  drawSection("Costos", costos, "#9333EA");
+  drawSection("Resultados", resultados, "#2563EB");
+
+  //  Footer
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(10);
+  doc.setTextColor("#888");
+
+
+  // 💾 Save the PDF
+  const filename = `ER_${this.nombre || "Empresa"}_${this.periodo || "Periodo"}.pdf`;
+  doc.save(filename);
 }
 
 }
