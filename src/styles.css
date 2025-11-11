@@ -8,9 +8,12 @@ html, body {
   color: white;
   flex-direction: column;
   background: linear-gradient(to bottom, #150050, #FB2576);
-  font-family: Jockey One, sans-serif;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* 💡 keeps it full-page as content grows */
+  background-size: cover;       /* ensures full coverage */
+  color: white;
+  font-family: 'Jockey One', sans-serif;
 }
-
 app-root {
   display: flex;
   flex-direction: column;
