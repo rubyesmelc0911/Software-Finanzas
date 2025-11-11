@@ -1,7 +1,7 @@
 <div class="contenedor-bg">
+  <!-- COLUMNA IZQUIERDA -->
   <div class="cuentas-bg">
     <h3>CUENTAS</h3>
-
     <div style="background-color: #3F0071;">
       <div class="buscador">
         <form method="get" id="buscarform">
@@ -14,46 +14,91 @@
       </div>
     </div>
 
-    <div class="lista-cuentas">
-      <div
-        *ngFor="let cuenta of accounts"
-        class="cuenta-item"
-        [class.selected]="isSelected(cuenta)"
-        (click)="toggleAccount(cuenta)"
-      >
-        {{ cuenta.nombre }}
+    <!-- 🟩 ACTIVO CIRCULANTE -->
+    <h4>Activo Circulante</h4>
+    <div *ngFor="let acc of getAccountsByType('Activo Circulante')" class="lista-cuentas">
+      <div class="cuenta-item" *ngIf="acc.requiereInput">
+        <span>{{ acc.nombre }}</span>
+        <input type="number" [(ngModel)]="acc.valor" placeholder="Monto" />
       </div>
     </div>
+
+    <!-- 🟩 ACTIVO NO CIRCULANTE -->
+    <h4>Activo No Circulante</h4>
+    <div *ngFor="let acc of getAccountsByType('Activo No Circulante')" class="lista-cuentas">
+      <div class="cuenta-item" *ngIf="acc.requiereInput">
+        <span>{{ acc.nombre }}</span>
+        <input type="number" [(ngModel)]="acc.valor" placeholder="Monto" />
+      </div>
+    </div>
+
+    <!-- 🟥 PASIVO CIRCULANTE -->
+    <h4>Pasivo Circulante</h4>
+    <div *ngFor="let acc of getAccountsByType('Pasivo Circulante')" class="lista-cuentas">
+      <div class="cuenta-item" *ngIf="acc.requiereInput">
+        <span>{{ acc.nombre }}</span>
+        <input type="number" [(ngModel)]="acc.valor" placeholder="Monto" />
+      </div>
+    </div>
+
+    <!-- 🟥 PASIVO NO CIRCULANTE -->
+    <h4>Pasivo No Circulante</h4>
+    <div *ngFor="let acc of getAccountsByType('Pasivo No Circulante')" class="lista-cuentas">
+      <div class="cuenta-item" *ngIf="acc.requiereInput">
+        <span>{{ acc.nombre }}</span>
+        <input type="number" [(ngModel)]="acc.valor" placeholder="Monto" />
+      </div>
+    </div>
+
+    <!-- 🟦 CAPITAL -->
+    <h4>Capital Contable</h4>
+    <div *ngFor="let acc of getAccountsByType('Capital')" class="lista-cuentas">
+      <div class="cuenta-item" *ngIf="acc.requiereInput">
+        <span>{{ acc.nombre }}</span>
+        <input type="number" [(ngModel)]="acc.valor" placeholder="Monto" />
+      </div>
+    </div>
+
+    <button class="glow-on-hover" (click)="updateCalculatedAccounts()">Calcular</button>
   </div>
 
+  <!-- COLUMNA DERECHA -->
   <div class="right-container">
-  <div class="empresa-info">
-    <h3>INFORMACIÓN DE EMPRESA</h3>
+    <div class="empresa-info">
+      <h3>INFORMACIÓN DE EMPRESA</h3>
 
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon1">Nombre de la Empresa:</span>
-      <input type="text" class="form-control-in" aria-describedby="basic-addon1" placeholder="Ej. Comercial XYZ S.A. de C.V.">
-    </div>
+      <div class="input-group">
+        <span class="input-group-addon">Nombre de la Empresa:</span>
+        <input type="text" class="form-control-in" [(ngModel)]="nombre" placeholder="Ej. Comercial XYZ S.A. de C.V." />
+      </div>
 
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon3">Dirección:</span>
-      <input type="text" class="form-control-in" aria-describedby="basic-addon3" placeholder="Ej. Calle 123, Ciudad, País">
-    </div>
+      <div class="input-group">
+        <span class="input-group-addon">Título del Documento:</span>
+        <input type="text" class="form-control-in" [(ngModel)]="titulo" placeholder="Balance General" />
+      </div>
 
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon6">Fecha del Balance:</span>
-      <input type="date" class="form-control-in" aria-describedby="basic-addon6">
-    </div>
+      <div class="input-group">
+        <span class="input-group-addon">Periodo Contable:</span>
+        <input type="text" class="form-control-in" [(ngModel)]="periodo" placeholder="Ej. al 31 de diciembre de 2025" />
+      </div>
 
-    <div class="input-group">
-      <span class="input-group-addon" id="basic-addon7">Título del Documento:</span>
-      <input type="text" class="form-control-in" aria-describedby="basic-addon7" value="Balance General">
-    </div>
-  </div>
+      <div class="real-time">
+        <h2>{{ titulo }}</h2>
+        <h3>{{ nombre }}</h3>
+        <h4>{{ periodo }}</h4>
 
-  <div class="real-time">
-    Actualización en tiempo real de la actividad
+        <div class="accounts-list">
+          <div *ngFor="let acc of accounts" class="account-row">
+            <div class="account-name">{{ acc.nombre }}</div>
+            <div class="account-value">{{ acc.valor | number: '1.2-2' }}</div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <button class="glow-on-hover">Crear Balance General</button>
   </div>
+</div>
+
+
 
