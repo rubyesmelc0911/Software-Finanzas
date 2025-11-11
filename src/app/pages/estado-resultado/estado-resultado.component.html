@@ -3,13 +3,6 @@
   <div class="cuentas-er">
     <h3>CUENTAS</h3>
     <div style="background-color: #3F0071;"> <!--Parte morada del diseño-->
-      <div class="buscador"><form method="get" id="buscarform">
-    <fieldset>
-        <input type="text" id="s" value="" placeholder="Buscar"  />
-        <input class="button" type="submit" value="" />
-        <i class="bi bi-search"></i>
-    </fieldset>
-    </form></div>
     </div>
     <!--Lista de cuentas-->
     <div *ngFor="let acc of accounts" class="lista-cuentas">
@@ -49,7 +42,7 @@
 
       </div>
   <div class="accounts-list">
-  <div *ngFor="let acc of accounts" class="account-row">
+  <div *ngFor="let acc of accounts" class="account-row" [ngStyle]="{'background-color': !acc.requiereInput ? '#D3D3D3' : 'white'}">
     <div class="account-name">{{ acc.nombre }}</div>
     <div class="account-value">{{ acc.valor }}</div>
   </div>
@@ -58,5 +51,5 @@
     </div>
 
   </div>
-  <button class="glow-on-hover"> Crear Estado de Resultado </button>
+  <button class="glow-on-hover" (click)="generatePDF()"> Crear Estado de Resultado </button>
 </div>

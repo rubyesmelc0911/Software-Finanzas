@@ -15,17 +15,17 @@ export class HomeComponent {
   async fetchJoke(){
     try {
       console.log('Fetching joke...');
-      const response = await fetch('https://official-joke-api.appspot.com/random_joke');
+      const response = await fetch('https://v2.jokeapi.dev/joke/Programming?safe-mode');
       const data = await response.json();
 
-      this.joke = `${data.setup} 🤔 ${data.punchline}`;
+      this.joke = `${data.setup} 🤔, ${data.delivery} 😅`;
       this.showJoke = true;
       console.log(this.joke)
 
       // Hide the bubble after 5 seconds
       setTimeout(() => {
         this.showJoke = false;
-      }, 5000);
+      }, 8000);
 
     } catch (error) {
       this.joke = 'Oops! No se pudo obtener un chiste 😢';
