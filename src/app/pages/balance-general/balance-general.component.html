@@ -3,15 +3,6 @@
   <div class="cuentas-bg">
     <h3>CUENTAS</h3>
     <div style="background-color: #3F0071;">
-      <div class="buscador">
-        <form method="get" id="buscarform">
-          <fieldset>
-            <input type="text" id="s" value="" placeholder="Buscar" />
-            <input class="button" type="submit" value="" />
-            <i class="bi bi-search"></i>
-          </fieldset>
-        </form>
-      </div>
     </div>
 
     <!-- 🟩 ACTIVO CIRCULANTE -->
@@ -83,12 +74,12 @@
       </div>
 
       <div class="real-time">
-        <h2>{{ titulo }}</h2>
-        <h3>{{ nombre }}</h3>
-        <h4>{{ periodo }}</h4>
+        <h2 style="font-family: Jockey One">{{ titulo }}</h2>
+        <h3 style="font-family: Jockey One; color: white;">{{ nombre }}</h3>
+        <h4 style="font-family: Jockey One; color:white;">{{ periodo }}</h4>
 
         <div class="accounts-list">
-          <div *ngFor="let acc of accounts" class="account-row">
+          <div *ngFor="let acc of accounts" class="account-row" [ngStyle]="{'background-color': !acc.requiereInput ? '#D3D3D3' : 'white'}">
             <div class="account-name">{{ acc.nombre }}</div>
             <div class="account-value">{{ acc.valor | number: '1.2-2' }}</div>
           </div>
