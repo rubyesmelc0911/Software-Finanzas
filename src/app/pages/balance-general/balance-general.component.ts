@@ -151,28 +151,32 @@ export class BalanceGeneralComponent {
   }
 
   generatePDF(){
- const doc = new jsPDF();
+ const doc = new jsPDF({
+  orientation: "p",
+  unit: "mm",
+  format: [210, 400],
+});//tamaño del pdf
 
   // 🎨 Colors and Fonts
   const pink = "#FB2576";
   const purple = "#150050";
   const lightPurple = "#C9A7EB";
-  const lineHeight = 10;
+  const lineHeight = 7;// Espaciado entre las cuentas
   let y = 20;
 
   //  HEADER
   doc.setFont("helvetica", "bold");
-  doc.setFontSize(22);
+  doc.setFontSize(19);
   doc.setTextColor(purple);
   doc.text(this.titulo || "Balance General", 105, y, { align: "center" });
 
   y += lineHeight;
-  doc.setFontSize(14);
+  doc.setFontSize(12);
   doc.setTextColor(pink);
   doc.text(this.nombre || "Nombre de la Empresa", 105, y, { align: "center" });
 
   y += lineHeight;
-  doc.setFontSize(12);
+  doc.setFontSize(10);
   doc.setTextColor("#555");
   doc.text(this.periodo || "Periodo no especificado", 105, y, { align: "center" });
 
@@ -190,7 +194,7 @@ export class BalanceGeneralComponent {
 
     // Section title
     doc.setFont("helvetica", "bold");
-    doc.setFontSize(14);
+    doc.setFontSize(12);
     doc.setTextColor(color);
     doc.text(title, 20, y);
     y += 8;
@@ -204,7 +208,7 @@ export class BalanceGeneralComponent {
     // Items
     y += 5;
     doc.setFont("helvetica", "normal");
-    doc.setFontSize(12);
+    doc.setFontSize(10);
     doc.setTextColor("#333");
 
     items.forEach(item => {
@@ -234,7 +238,7 @@ export class BalanceGeneralComponent {
 
   // 📝 Footer
   doc.setFont("helvetica", "italic");
-  doc.setFontSize(10);
+  doc.setFontSize(9);
   doc.setTextColor("#888");
   doc.text(
     "Generado automáticamente por el sistema de Balance General",
