@@ -9,25 +9,33 @@
 
 .cuentas-bg {
   background-color: #D9D9D9;
-  height: auto;
-  width: 20em;
   padding: 1em;
   text-align: center;
   border-radius: 10px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  width: 18em; /* Set a fixed width */
+  height: 40em; /* Set a fixed height */
+  border: 1px solid #ccc; /* Optional: Add a border for visibility */
+  overflow: auto; /* This is the key property for scrolling */
+  /* overflow-y: auto; for vertical scrolling only */
+  /* overflow-x: auto; for horizontal scrolling only */
 }
 
 
 .right-container {
   display: grid;
   gap: 2em;
-  height: auto;
-  width: 48em;
   text-align: center;
   background-color: #f8f8f8;
   padding: 2em;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+  width: 50em; /* Set a fixed width */
+  height: 40em; /* Set a fixed height */
+  border: 1px solid #ccc; /* Optional: Add a border for visibility */
+  overflow: auto; /* This is the key property for scrolling */
+  /* overflow-y: auto; for vertical scrolling only */
+  /* overflow-x: auto; for horizontal scrolling only */
 }
 
 
@@ -82,7 +90,6 @@
 
 
 .real-time {
-  background-color: #D9D9D9;
   height: auto;
   width: 100%;
   padding: 1em;
