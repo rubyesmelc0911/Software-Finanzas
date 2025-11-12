@@ -1,6 +1,8 @@
+import { CommonModule, NumberSymbol } from '@angular/common';
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import jsPDF from 'jspdf';
 import { FormsModule } from '@angular/forms';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-balance-general',
@@ -33,37 +35,29 @@ export class BalanceGeneralComponent {
     { nombre: 'Clientes', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Documentos por cobrar (corto plazo)', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Deudores diversos', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Funcionarios y empleados (anticipos)', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Inventarios / Almacén de mercancías', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Anticipo a proveedores', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'IVA acreditable', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Intereses por cobrar', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Rentas pagadas por anticipado', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Seguros pagados por anticipado', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Otros gastos pagados por anticipado', tipo: 'Activo Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Anticipo a proveedores', tipo: 'Activo Circulante', requiereInput: false, valor: 0 },
     { nombre: 'Activo Circulante Total', tipo: 'Activo Circulante', requiereInput: false, calculada: true, valor: 0 },
 
     // ===== ACTIVO - NO CIRCULANTE (TANGIBLE) =====
     { nombre: 'Terrenos', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Edificios', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Mobiliario y equipo de oficina', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Equipo de transporte', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Equipo de transporte', tipo: 'Activo No Circulante', requiereInput: false, valor: 0 },
     { nombre: 'Equipo de cómputo', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Maquinaria y equipo industrial', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Depositos en garantía', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
     // cuenta correctiva (restará)
-    { nombre: 'Depreciación acumulada', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Depreciación acumulada', tipo: 'Activo No Circulante', requiereInput: false, valor: 0 },
 
     // ===== ACTIVO - NO CIRCULANTE (INTANGIBLE) =====
-    { nombre: 'Marcas y patentes', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Derechos de autor', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Crédito mercantil (goodwill)', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Gastos de organización', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Amortización acumulada de intangibles', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
 
     // ===== OTROS ACTIVOS NO CIRCULANTES =====
-    { nombre: 'Depósitos en garantía', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Inversiones permanentes en acciones', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Papelería y Utiles', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Documentos por cobrar a largo plazo', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Gastos de instalación', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Primas de seguros', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Gastos en mercadotecnia', tipo: 'Activo No Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Activo No Circulante Total', tipo: 'Activo No Circulante', requiereInput: false, calculada: true, valor: 0 },
 
     // ===== TOTAL ACTIVO =====
@@ -74,34 +68,24 @@ export class BalanceGeneralComponent {
     { nombre: 'Documentos por pagar (corto plazo)', tipo: 'Pasivo Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Acreedores diversos', tipo: 'Pasivo Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Anticipo de clientes', tipo: 'Pasivo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'IVA trasladado', tipo: 'Pasivo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'IVA por pagar', tipo: 'Pasivo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Impuestos por pagar (ISR, IMSS, etc.)', tipo: 'Pasivo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Sueldos y salarios por pagar', tipo: 'Pasivo Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Impuestos por pagar (ISR, IMSS, etc.)', tipo: 'Pasivo Circulante', requiereInput: false, valor: 0 },
+    { nombre: 'Sueldos y salarios por pagar', tipo: 'Pasivo Circulante', requiereInput: false, valor: 0 },
     { nombre: 'Intereses por pagar', tipo: 'Pasivo Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Rentas cobradas por anticipado', tipo: 'Pasivo Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Dividendos por pagar', tipo: 'Pasivo Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Dividendos por pagar', tipo: 'Pasivo Circulante', requiereInput: false, valor: 0 },
     { nombre: 'Total Pasivo Circulante', tipo: 'Pasivo Circulante', requiereInput: false, calculada: true, valor: 0 },
 
     // ===== PASIVO - NO CIRCULANTE =====
     { nombre: 'Documentos por pagar a largo plazo', tipo: 'Pasivo No Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Préstamos bancarios a largo plazo', tipo: 'Pasivo No Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Préstamos bancarios a largo plazo', tipo: 'Pasivo No Circulante', requiereInput: false, valor: 0 },
     { nombre: 'Hipotecas por pagar', tipo: 'Pasivo No Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Bonos por pagar', tipo: 'Pasivo No Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Provisiones a largo plazo', tipo: 'Pasivo No Circulante', requiereInput: true, valor: 0 },
-    { nombre: 'Obligaciones laborales a largo plazo', tipo: 'Pasivo No Circulante', requiereInput: true, valor: 0 },
+    { nombre: 'Intereses cobrados por anticipado', tipo: 'Pasivo No Circulante', requiereInput: true, valor: 0 },
     { nombre: 'Total Pasivo No Circulante', tipo: 'Pasivo No Circulante', requiereInput: false, calculada: true, valor: 0 },
 
     // ===== TOTAL PASIVO =====
     { nombre: 'Pasivo Total', tipo: 'Pasivo', requiereInput: false, calculada: true, valor: 0 },
 
     // ===== CAPITAL CONTABLE =====
-    { nombre: 'Capital social', tipo: 'Capital', requiereInput: true, valor: 0 },
-    { nombre: 'Aportaciones adicionales de capital', tipo: 'Capital', requiereInput: true, valor: 0 },
-    { nombre: 'Reserva legal', tipo: 'Capital', requiereInput: true, valor: 0 },
-    { nombre: 'Resultados de ejercicios anteriores', tipo: 'Capital', requiereInput: true, valor: 0 },
-    { nombre: 'Utilidad o pérdida del ejercicio', tipo: 'Capital', requiereInput: true, valor: 0 },
-    { nombre: 'Revaluación de activos', tipo: 'Capital', requiereInput: true, valor: 0 },
     { nombre: 'Capital Total', tipo: 'Capital', requiereInput: false, calculada: true, valor: 0 },
 
     // ===== RESULTADO FINAL =====
@@ -158,13 +142,116 @@ export class BalanceGeneralComponent {
     const pasivoTotal = pasivoCirculante + pasivoNoCirculante;
     this.setValor('Pasivo Total', pasivoTotal);
 
-    // ---- Capital ----
-    const capitalTotal = this.sumByType('Capital');
-    this.setValor('Capital Total', capitalTotal);
+    // ---- Capital Contable----
+    const capitalContable = activoTotal - pasivoTotal;
+    this.setValor('Capital Total', capitalContable);
 
     // ---- Resultado final (Pasivo + Capital) ----
-    this.setValor('Pasivo + Capital', pasivoTotal + capitalTotal);
+    this.setValor('Pasivo + Capital', pasivoTotal + capitalContable);
   }
+
+  generatePDF(){
+ const doc = new jsPDF({
+  orientation: "p",
+  unit: "mm",
+  format: [210, 400],
+});//tamaño del pdf
+
+  // 🎨 Colors and Fonts
+  const pink = "#FB2576";
+  const purple = "#150050";
+  const lightPurple = "#C9A7EB";
+  const lineHeight = 7;// Espaciado entre las cuentas
+  let y = 20;
+
+  //  HEADER
+  doc.setFont("helvetica", "bold");
+  doc.setFontSize(19);
+  doc.setTextColor(purple);
+  doc.text(this.titulo || "Balance General", 105, y, { align: "center" });
+
+  y += lineHeight;
+  doc.setFontSize(12);
+  doc.setTextColor(pink);
+  doc.text(this.nombre || "Nombre de la Empresa", 105, y, { align: "center" });
+
+  y += lineHeight;
+  doc.setFontSize(10);
+  doc.setTextColor("#555");
+  doc.text(this.periodo || "Periodo no especificado", 105, y, { align: "center" });
+
+  y += 10;
+
+  //  Decorative line
+  doc.setDrawColor(pink);
+  doc.setLineWidth(1.5);
+  doc.line(20, y, 190, y);
+  y += 10;
+
+  // 🗂️ Helper to draw sections
+  const drawSection = (title: string, items: Cuenta[], color:string) => {
+    if (!items.length) return;
+
+    // Section title
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+    doc.setTextColor(color);
+    doc.text(title, 20, y);
+    y += 8;
+
+    // Rounded background box (optional, adds cuteness ✨)
+    const startY = y - 3;
+    const boxHeight = items.length * (lineHeight - 2) + 6;
+    doc.setFillColor(255, 245, 255); // light pastel bg
+    doc.roundedRect(18, startY, 175, boxHeight, 3, 3, "F");
+
+    // Items
+    y += 5;
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(10);
+    doc.setTextColor("#333");
+
+    items.forEach(item => {
+      doc.text(item.nombre, 25, y);
+      doc.text(item.valor.toLocaleString("es-MX", { style: "currency", currency: "MXN" }), 180, y, { align: "right" });
+      y += lineHeight - 2;
+    });
+
+    y += 6;
+  };
+
+        // 🧾 Agrupar por tipo
+      const activosC = this.accounts.filter(a => a.tipo === 'Activo Circulante');
+      const activosNC = this.accounts.filter(a => a.tipo === 'Activo No Circulante');
+      const pasivosC = this.accounts.filter(a => a.tipo === 'Pasivo Circulante');
+      const pasivosNC = this.accounts.filter(a => a.tipo === 'Pasivo No Circulante');
+      const capital = this.accounts.filter(a => a.tipo === 'Capital');
+      const totales = this.accounts.filter(a => a.tipo === 'Resultado' || a.tipo === 'Activo' || a.tipo === 'Pasivo')
+
+// ✨ Dibujar cada bloque
+      drawSection('Activo Circulante', activosC, '#2563EB');
+      drawSection('Activo No Circulante', activosNC, '#2563EB');
+      drawSection('Pasivo Circulante', pasivosC, '#9333EA');
+      drawSection('Pasivo No Circulante', pasivosNC, '#9333EA');
+      drawSection('Capital Contable', capital, '#D63384');
+      drawSection('Totales', totales, '#000000');
+
+  // 📝 Footer
+  doc.setFont("helvetica", "italic");
+  doc.setFontSize(9);
+  doc.setTextColor("#888");
+  doc.text(
+    "Generado automáticamente por el sistema de Balance General",
+    105, // centrado
+    285,
+    { align: "center" }
+  );
+
+  // 💾 Guardar el PDF
+  const filename = `BG_${this.nombre || "Empresa"}_${this.periodo || "Periodo"}.pdf`;
+  doc.save(filename);
+
+}
 }
 
 // Interface
