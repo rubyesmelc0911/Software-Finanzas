@@ -15,12 +15,15 @@ export class HomeComponent {
   async fetchJoke(){
     try {
       console.log('Fetching joke...');
-      const response = await fetch('https://v2.jokeapi.dev/joke/Programming?safe-mode');
-      const data = await response.json();
-
-      this.joke = `${data.setup} 🤔, ${data.delivery} 😅`;
-      this.showJoke = true;
+      let data;
+      let response;
+     fetch('https://v2.jokeapi.dev/joke/Programming?safe-mode')
+  .then(response => response.json())
+  .then(data => {
+     this.joke = `${data.setup} 🤔, ${data.delivery} 😅`;
+    this.showJoke = true;
       console.log(this.joke)
+  });
 
       // Hide the bubble after 5 seconds
       setTimeout(() => {
