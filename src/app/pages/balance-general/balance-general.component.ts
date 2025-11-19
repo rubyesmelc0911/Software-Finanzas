@@ -150,8 +150,8 @@ export class BalanceGeneralComponent {
     this.setValor('Pasivo + Capital', pasivoTotal + capitalContable);
   }
 
-  generatePDF(){
- const doc = new jsPDF({
+      generatePDF(){
+    const doc = new jsPDF({
   orientation: "p",
   unit: "mm",
   format: [210, 400],
@@ -246,6 +246,96 @@ export class BalanceGeneralComponent {
     285,
     { align: "center" }
   );
+
+doc.addPage();
+let y2 = 20;
+
+// TÍTULO DE LA SEGUNDA HOJA
+doc.setFont("helvetica", "bold");
+doc.setFontSize(16);
+doc.setTextColor("#150050");
+doc.text("Balance General (Forma de Cuenta)", 105, y2, { align: "center" });
+
+y2 += 12;
+doc.setFontSize(12);
+doc.setTextColor("#FB2576");
+doc.text(this.nombre || "Nombre de la Empresa", 105, y2, { align: "center" });
+
+y2 += 8;
+doc.setFontSize(10);
+doc.setTextColor("#555");
+doc.text(this.periodo || "Periodo no especificado", 105, y2, { align: "center" });
+
+y2 += 12;
+
+// Línea divisoria vertical de la “T”
+doc.setDrawColor("#000000");
+doc.setLineWidth(1);
+doc.line(105, y2, 105, 270); // Línea central
+
+// 🏦 Títulos de cada lado
+doc.setFont("helvetica", "bold");
+doc.setFontSize(12);
+doc.setTextColor("#2563EB");
+doc.text("ACTIVO", 50, y2);
+
+doc.setTextColor("#9333EA");
+doc.text("PASIVO Y CAPITAL", 150, y2);
+
+y2 += 8;
+
+// Formatear columnas
+doc.setFont("helvetica", "normal");
+doc.setFontSize(10);
+doc.setTextColor("#333");
+
+let yAct = y2;
+let yPasCap = y2;
+
+// Dibujar Activos (lado izquierdo)
+[...activosC, ...activosNC].forEach(item => {
+  doc.text(item.nombre, 20, yAct);
+  doc.text(
+    item.valor.toLocaleString("es-MX", { style: "currency", currency: "MXN" }),
+    95, yAct, { align: "right" }
+  );
+  yAct += 7;
+});
+
+// Dibujar Pasivo + Capital (lado derecho)
+[...pasivosC, ...pasivosNC, ...capital].forEach(item => {
+  doc.text(item.nombre, 115, yPasCap);
+  doc.text(
+    item.valor.toLocaleString("es-MX", { style: "currency", currency: "MXN" }),
+    190, yPasCap, { align: "right" }
+  );
+  yPasCap += 7;
+});
+
+// TOTALES en forma de cuenta
+const totalActivos = this.accounts
+  .filter(a => a.tipo === 'Activo Circulante' || a.tipo === 'Activo No Circulante')
+  .filter(a => !a.nombre.toLowerCase().includes("total"))   // ⬅ evita sumar subtotales
+  .reduce((sum, a) => sum + a.valor, 0);
+
+  const totalPasCap = this.accounts
+  .filter(a =>
+    a.tipo === 'Pasivo Circulante' ||
+    a.tipo === 'Pasivo No Circulante' ||
+    a.tipo === 'Capital'
+  )
+  .filter(a => !a.nombre.toLowerCase().includes("total"))
+  .reduce((sum, a) => sum + a.valor, 0);
+
+yAct += 5;
+yPasCap += 5;
+
+doc.setFont("helvetica", "bold");
+doc.text("TOTAL ACTIVOS:", 20, yAct);
+doc.text(totalActivos.toLocaleString("es-MX", { style: "currency", currency: "MXN" }), 95, yAct, { align: "right" });
+
+doc.text("TOTAL PASIVO + CAPITAL:", 115, yPasCap);
+doc.text(totalPasCap.toLocaleString("es-MX", { style: "currency", currency: "MXN" }), 190, yPasCap, { align: "right" });
 
   // 💾 Guardar el PDF
   const filename = `BG_${this.nombre || "Empresa"}_${this.periodo || "Periodo"}.pdf`;
